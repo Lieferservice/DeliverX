@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DeliverX Bestellformular</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      margin-top: 20px;
+      background: #25d366; /* WhatsApp green */
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background: #128c4a;
+    }
+    .firma-info {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>DeliverX Bestellformular</h1>
+  <form id="orderForm" onsubmit="return false;">
+    <label for="name">1. Name und Vorname</label>
+    <input type="text" id="name" name="name" required placeholder="Max Mustermann" />
+
+    <label>2. Abholadresse und Telefonnummer</label>
+    <input type="text" id="pickup_street" name="pickup_street" required placeholder="Straße, Nr." />
+    <input type="text" id="pickup_plz" name="pickup_plz" required placeholder="PLZ" style="margin-top:5px" />
+    <input type="text" id="pickup_city" name="pickup_city" required placeholder="Ort" style="margin-top:5px" />
+    <input type="text" id="pickup_phone" name="pickup_phone" required placeholder="Telefonnummer" style="margin-top:5px" />
+
+    <label>3. Lieferadresse und Telefonnummer</label>
+    <input type="text" id="delivery_street" name="delivery_street" required placeholder="Straße, Nr." />
+    <input type="text" id="delivery_plz" name="delivery_plz" required placeholder="PLZ" style="margin-top:5px" />
+    <input type="text" id="delivery_city" name="delivery_city" required placeholder="Ort" style="margin-top:5px" />
+    <input type="text" id="delivery_phone" name="delivery_phone" required placeholder="Telefonnummer" style="margin-top:5px" />
+
+    <label for="weight">4. Gewicht des Pakets (in kg)</label>
+    <input type="number" id="weight" name="weight" min="0" step="0.01" required placeholder="z.B. 5.5" />
+
+    <label for="dimensions">5. Maße des Pakets (L x B x H in cm)</label>
+    <input type="text" id="dimensions" name="dimensions" placeholder="z.B. 30x20x15" required />
+
+    <label for="payment">6. Zahlungsmethode</label>
+    <select id="payment" name="payment" required>
+      <option value="" disabled selected>Bitte wählen</option>
+      <option value="Sofortüberweisung">Sofortüberweisung (mit Zahlungsbestätigung)</option>
+      <option value="Barzahlung">Barzahlung bei Lieferung</option>
+    </select>
+
+    <label for="details">7. Details zum Paket</label>
+    <textarea id="details" name="details" rows="4" placeholder="Besondere Hinweise oder Beschreibung"></textarea>
+
+    <button
+      onclick="
+        const name = encodeURIComponent(document.getElementById('name').value.trim());
+        const pickup = encodeURIComponent(
+          document.getElementById('pickup_street').value.trim() + ', ' +
+          document.getElementById('pickup_plz').value.trim() + ', ' +
+          document.getElementById('pickup_city').value.trim() + ', Tel: ' +
+          document.getElementById('pickup_phone').value.trim()
+        );
+        const delivery = encodeURIComponent(
+          document.getElementById('delivery_street').value.trim() + ', ' +
+          document.getElementById('delivery_plz').value.trim() + ', ' +
+          document.getElementById('delivery_city').value.trim() + ', Tel: ' +
+          document.getElementById('delivery_phone').value.trim()
+        );
+        const weight = encodeURIComponent(document.getElementById('weight').value.trim());
+        const dimensions = encodeURIComponent(document.getElementById('dimensions').value.trim());
+        const payment = encodeURIComponent(document.getElementById('payment').value);
+        const details = encodeURIComponent(document.getElementById('details').value.trim());
+        const message =
+          'Neue Bestellung von DeliverX:%0A%0A' +
+          '1. Name und Vorname: ' + name + '%0A%0A' +
+          '2. Abholadresse: ' + pickup + '%0A%0A' +
+          '3. Lieferadresse: ' + delivery + '%0A%0A' +
+          '4. Gewicht des Pakets: ' + weight + ' kg%0A%0A' +
+          '5. Maße des Pakets: ' + dimensions + ' cm%0A%0A' +
+          '6. Zahlungsmethode: ' + payment + '%0A%0A' +
+          '7. Details zum Paket: ' + details + '%0A%0A' +
+          'Firma: DeliverX Lieferung Dienst, Beckum, Str. 122, 59269, Email: danielconstantinescu8484@gmail.com, Telefon: 017671723439';
+        const phone = '4917671723439';
+        window.open('https://wa.me/' + phone + '?text=' + message, '_blank');
+      "
+    >
+      Bestellung per WhatsApp senden
+    </button>
+  </form>
+
+  <div class="firma-info">
+    <p><strong>DeliverX Lieferung Dienst</strong></p>
+    <p>Email: danielconstantinescu8484@gmail.com</p>
+    <p>Telefon: 017671723439</p>
+    <p>Adresse: Beckum 59269</p>
+  </div>
+</body>
+</html>
